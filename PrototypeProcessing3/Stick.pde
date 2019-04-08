@@ -1,5 +1,6 @@
 class Stick {
-  int x, y, w, h, dmg;
+
+ int x, y, w, h, dmg;
 
 
 
