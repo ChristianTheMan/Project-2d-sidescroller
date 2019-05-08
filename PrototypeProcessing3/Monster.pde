@@ -3,6 +3,8 @@ class Monster {
   int wide = 80;
   int high = 100;
   int hp;
+  int speedY;
+  int speedX;
   PImage myImage; 
   
   

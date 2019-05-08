@@ -1,4 +1,4 @@
-class Stick extends Items {
+class Stick {
  int x, y, w, h, dmg;
 
 
