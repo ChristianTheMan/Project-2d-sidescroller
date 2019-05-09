@@ -18,7 +18,8 @@ class Crab extends Monster {
     Crab.resize(width, height);
     image(Crab, x, y);
   
-
+  }
+  void draw(){
 
 if (crabHidden == true) {
     image(Sand, crab.x, crab.y+5);

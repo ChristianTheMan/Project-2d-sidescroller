@@ -1,14 +1,14 @@
 class Monster {
   int x,y;
-  int wide = 80;
-  int high = 100;
+  int width = 80;
+  int height = 100;
   int hp;
   int speedY;
   int speedX;
   PImage myImage; 
+}
   
-  
-  Monster(){
+ /* Monster(){
     x = 600;
     y = 300;
     hp = 100;
@@ -31,8 +31,4 @@ class Monster {
   void setXY(int _x, int _y){
     x = _x;
     y = _y;
-  }
-  
-  
-  
-}
+  }*/

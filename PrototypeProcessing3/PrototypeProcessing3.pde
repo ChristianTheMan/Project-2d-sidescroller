@@ -6,8 +6,7 @@ PImage beach;
 int x1, y1, w1, h1;
 int x2, y2, w2, h2;
 float playerSpeedY =0;
-float stickSpeedY = 0;
-float stickSpeedX= 0;
+
 float monsterSpeedX=0;
 float d;
 boolean jumping = false;
@@ -38,12 +37,13 @@ void setup () {
 
   
   //load monster
-  monsters[0]= new Monster("pixelMonsterB.png");
-  monsters[0].setXY(450, 240);
+ // monsters[0]= new Monster("pixelMonsterB.png");
+  //monsters[0].setXY(450, 240);
 }
 
 void draw () {
-  movement();
+  player.movement();
+  player.draw();
   image(beach, 0, 0);
   beach.resize(800, 450);
   fill(255);
@@ -55,24 +55,16 @@ void draw () {
     Sand.resize(60, 30);
   checkDeath();
   damage();
+  crab.draw();
+  rock.draw();
+  stick.draw();
   
 
-  if (death == false) monsters[0].display();
+ // if (death == false) monsters[0].display();
 
   checkDeath();
 
-  //jumping
-  player.y +=playerSpeedY;
-  if (player.y >=250) {
-    playerSpeedY =0;
-    jumping = false;
-  } else {
-    playerSpeedY ++;
-  }
-  //If player reaches certain height, jumping = false
-  if (player.y <= 180) {
-    upPressed = false;
-  }
+  
   /*
   //Monster movement
    monsters[0].x += monsterSpeedX;
@@ -84,115 +76,8 @@ void draw () {
 
   //Item
 
-  stick.y += stickSpeedY;
-  if (stick.y >= 325) {
-    stickSpeedY =0;
-    stick.y = 325;
-  } else { //item falls to the ground and doesnt fall forever
-    stickSpeedY = +6;
-  }
-  /* Equips item ( If the player is close to the stick,
-   and presses 'e', the sticks coordinates
-   are set to the fit the player)
-   */
-  if (!equipped && player.x > stick.x-20 && player.x < stick.x +70 && key == 'e') {
-    stick.x = player.x + 30;
-    stick.y = player.y +30;
-    equipped = true;
-  }
-  //Item stays connected to player
-  if (equipped) {
-    stick.x = player.x;
-    stick.y = player.y+30;
-  }
-  //Unequip
-  if (equipped && key =='o') {
-    equipped = false;
-  }
-
-  //Attacking (If the stick is equipped, and ' ' is pressed, then stick.x +30)
-  stick.x += stickSpeedX;
-  if (equipped && key == ' ' && atkPressed == true) {
-    stickSpeedX = +30;
-  } else {
-    stickSpeedX =0;
-    atkPressed= false;
-  }
-  if (stick.x > player.x+60 && equipped==true) {
-    stickSpeedX = 0;
-    stick.x --;
-    atkPressed = false;
-  }
-// rock
-  rock.y += rock.speedY;
-  if (rock.y >= 325) {
-    rock.speedY =0;
-    rock.y = 325;
-  } else { //item falls to the ground and doesnt fall forever
-    rock.speedY = +6;
-  }
-  /* Equips item ( If the player is close to the stick,
-   and presses 'e', the sticks coordinates
-   are set to the fit the player)
-   */
-  if (!rockEquipped && player.x > rock.x-20 && player.x < rock.x +70 && key == 'e') {
-    rock.x = player.x + 30;
-    rock.y = player.y +30;
-    rockEquipped = true;
-  }
-  //Item stays connected to player
-  if (rockEquipped) {
-    rock.x = player.x;
-    rock.y = player.y+30;
-  }
-  //Unequip
-  if (rockEquipped && key =='o') {
-    rockEquipped = false;
-  }
-
-  //Attacking (If the stick is equipped, and ' ' is pressed, then stick.x +30)
-  rock.x += rock.speedX;
-  if (rockEquipped && key == ' ' && atkPressed == true) {
-    rock.speedX = +30;
-  } else {
-    rock.speedX =0;
-    atkPressed= false;
-  }
-  if (rock.x > player.x+60 && rockEquipped==true) {
-    rock.speedX = 0;
-    rock.x --;
-    atkPressed = false;
-  }
-  if ( rockEquipped == true ){
-      
-    for (int i = 0 ; i < 15; i++){
-      rock.speedX = 0 + i;
-      if (key == ' '){
-        rockEquipped = false; 
-        rock.x = rock.x + rock.speedX;
-        if (i == 12 ){
-         rock.speedY = 0 ;
-       
-        }
-      }
-    }
-  }
 }
 
-void movement() {
-  if (keyPressed) {
-    if (rightPressed) {
-      player.x=player.x+2;
-    }
-    if (leftPressed) {
-      player.x=player.x-2;
-    }
-    if (upPressed) {
-      playerSpeedY =-10;
-      jumping = true;
-    }
-  }
-}
 
 void keyPressed() {
   if (keyCode =='A') {
@@ -223,31 +108,6 @@ void keyReleased() {
     atkPressed = false;
   }
 }
-
-
-
-//collision between monster and stick
-/*boolean collision( Monster inputMonster, Stick stick) {
-  float stickDistance = dist(inputMonster.x+inputMonster.wide/2, inputMonster.y+inputMonster.high/2, stick.x+60, stick.y+5);
-  
-  if (stickDistance < inputMonster.wide/2) {
-
-
-    return true;
-     } else {
-    return false;
-  }
-}
-
-void checkDeath() {
-  if (collision(monsters[0], stick) && atkPressed == true) {
-    monsters[0].hp = monsters[0].hp+stick.dmg;
-    println("Dmg " + stick.dmg);
-
-    //death = true;
-  }
-}*/
-
 void damage() {
   if (player.x == crab.x -10 && jumping == false && death == false) {
     println("av");
