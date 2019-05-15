@@ -2,31 +2,32 @@
 PImage Crab;
 PImage Sand;
 PImage beach;
+PImage Bar;
 
 int x1, y1, w1, h1;
 int x2, y2, w2, h2;
-float playerSpeedY =0;
-
-float monsterSpeedX=0;
+float playerSpeedY = 0;
+float monsterSpeedX= 0;
 float d;
-boolean jumping = false;
-boolean equipped = false;
 boolean atkMode = false;
 boolean rightPressed =false;
 boolean leftPressed = false;
 boolean upPressed = false;
 boolean atkPressed = false;
 boolean death = false;
-boolean rockEquipped = false;
-boolean thrown = false; 
 boolean moveRight = true;
-boolean crabHidden = true;
+boolean press1 = false;
+boolean press2 = false;  
+boolean equipped = false;
+ boolean jumping = false;
+
 
 Player player = new Player();
 Stick stick= new Stick();
 Monster [] monsters = new Monster[5];
-Crab crab = new Crab();
-
+//Crab crab = new Crab();
+Crab crab1 = new Crab();
+Items item = new Items();
 Rock rock = new Rock();
 
 void setup () {
@@ -34,11 +35,12 @@ void setup () {
   beach = loadImage("darkbeach.png");
   Sand =loadImage("Sand_Dune.png");
   Crab =loadImage("OCRAB.png");
+  Bar = loadImage("bar.png");
 
-  
+
   //load monster
- // monsters[0]= new Monster("pixelMonsterB.png");
-  //monsters[0].setXY(450, 240);
+   monsters[0]= new Monster("pixelMonsterB.png");
+  monsters[0].setXY(450, 240);
 }
 
 void draw () {
@@ -52,34 +54,47 @@ void draw () {
   player.display();
   rock.display();
   stick.display();
-    Sand.resize(60, 30);
-  checkDeath();
-  damage();
-  crab.draw();
+  Sand.resize(60, 30);
+  player.checkDeath();
+  crab1.damage();
+  crab1.draw();
   rock.draw();
   stick.draw();
+  item.inventory();
   
-
- // if (death == false) monsters[0].display();
-
-  checkDeath();
-
-  
-  /*
+   if (death == false) monsters[0].display();
   //Monster movement
    monsters[0].x += monsterSpeedX;
    monsterSpeedX = +1;
    if (monsters[0].x >= 700){
    monsterSpeedX = 0;
    }
-   */
+   
 
   //Item
-
+}
+boolean collision( Monster inputMonster, Stick stick){
+  float stickDistance = dist(inputMonster.x+inputMonster.width/2, inputMonster.y+inputMonster.height/2 ,stick.x+60,stick.y+6);
+  if (stickDistance <inputMonster.width/2){
+    return true;
+    }else{
+    return false;
+  }
+}
+void checkDeath2(){
+  if (collision(monsters[0], stick) && atkPressed == true){
+    monsters[0].hp = monsters[0].hp+stick.dmg;
+    println("dmg" + stick.dmg);
+  }
 }
 
-
 void keyPressed() {
+  if (keyCode =='1') {
+    press1 = true;
+  }
+  if (keyCode =='2') {
+    press2 = true;
+  }
   if (keyCode =='A') {
     leftPressed = true;
   }
@@ -95,6 +110,12 @@ void keyPressed() {
 }
 
 void keyReleased() {
+  if (keyCode =='1') {
+    press1 = false;
+  }
+  if (keyCode =='2') {
+    press2 = false;
+  }
   if (keyCode == 'A') {
     leftPressed = false;
   }
@@ -106,42 +127,5 @@ void keyReleased() {
   }
   if (keyCode == ' ') {
     atkPressed = false;
-  }
-}
-void damage() {
-  if (player.x == crab.x -10 && jumping == false && death == false) {
-    println("av");
-    player.x =player.x +-60;
-  }
-
-  if (player.x == crab.x+60 && jumping == false && death == false) {
-    println("av2");
-    player.x = player.x +60;
-  }
-}
-
-
-void checkDeath() {
-
-
-  if (player.x >= crab.x+10 && player.y+70 >=crab.y-20 && player.x <=crab.x+30 && player.y+40 <= crab.y+10 && jumping == true) {
-    death=true;
-    println("dope");
-  }
-}
-
-
-void movement2() {
-  if (keyPressed) {
-    if (rightPressed) {
-      player.x=player.x+2;
-    }
-    if (leftPressed) {
-      player.x=player.x-2;
-    }
-    if (upPressed) {
-      playerSpeedY =-10;
-      jumping = true;
-    }
   }
 }
