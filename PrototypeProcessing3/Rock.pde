@@ -16,15 +16,6 @@ class Rock {
     y=320;
     w=10;
   }
-
-  Rock(int _x, int _y, int _w)
-  {
-    x = _x;
-    y = _y;
-    w = _w;
-  }
-
-
   void display() {
     fill(200);
     noStroke();
@@ -33,8 +24,8 @@ class Rock {
   void draw() {
 
     // rocK
-    y += rock.speedY;
-    if (y >= 325) {
+    y += speedY;
+    if (y >= 325 && !rockPickedUp) {
       speedY =0;
       y = 325;
     } else if (!rockPickedUp) { //item falls to the ground and doesnt fall forever
@@ -47,9 +38,9 @@ class Rock {
      */
     if (!rockEquipped && player.x > x-20 && player.x < x +20 && key == 'e' || key == '2' && rockPickedUp == true  ) {
       rockEquipped = true;
-        rockPickedUp = true;
-        x = player.x + 30;
-        y = player.y +30;
+      rockPickedUp = true;
+      x = player.x + 30;
+      y = player.y +30;
     }
     //Item stays connected to player
     if (rockEquipped && rockPickedUp ) {
@@ -60,8 +51,8 @@ class Rock {
     if (rockEquipped && rockPickedUp && key =='1') {
       rockPickedUp = true;
       rockEquipped = false;
-      x = 50;
-      y = 50;
+      x = 50 ;
+      y = 400;
     }
 
     //Attacking (If the stick is equipped, and ' ' is pressed, then stick.x +30)
@@ -72,19 +63,18 @@ class Rock {
       speedX =0;
       atkPressed= false;
     }
-    if (x > player.x+60 && rockEquipped==true) {
+    if (x > player.x+60 && rockEquipped==true || equipped && rockEquipped) {
       speedX = 0;
       x --;
       atkPressed = false;
     }
     if ( rockEquipped == true ) {
-
-      for (int i = 0; i < 15; i++) {
-        speedX = 0 + i;
-        if (key == ' ') {
+      for (int i = 0; i < 15; i++) { // Denne funktion er hvad der får stenene til at rykke sig fremad
+        speedX = 0 + i;              // samt at indskrænke hvor langt stenen må flyve. plus at unequipped
+        if (key == ' ') {            // stenen så den ikke bare teleporter tilbage til playeren
           rockEquipped = false; 
           rockPickedUp = false;
-          x = rock.x + speedX;
+          x = x + speedX;
           if (i == 12 ) {
             speedY = 0 ;
           }

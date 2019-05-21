@@ -51,14 +51,14 @@ class Crab extends Monster {
     }
   }
   void damage() {
-  if (player.x == crab1.x -10 && jumping == false && death == false) {
-    println("av");
-    player.x =player.x +-60;
-  }
+    if (player.x == crab1.x -10 && jumping == false && death == false) {
+      println("av");
+      player.x =player.x +-60;
+    }
 
-  if (player.x == crab1.x+60 && jumping == false && death == false) {
-    println("av2");
-    player.x = player.x +60;
+    if (player.x == crab1.x+60 && jumping == false && death == false) {
+      println("av2");
+      player.x = player.x +60;
+    }
   }
-}
 }

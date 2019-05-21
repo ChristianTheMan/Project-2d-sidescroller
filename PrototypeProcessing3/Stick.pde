@@ -15,26 +15,16 @@ class Stick {
     h=5;
     dmg=25;
   }
-
-  Stick(int _x, int _y, int _w, int _h) {
-    x=_x;
-    y=_y;
-    w=_w;
-    h=_h;
-  }
-
-
   void display() {
     fill(0, 255, 0);
     rect(x, y, w, h);
   }
   void draw() {
-
-    stick.y += stickSpeedY;
-    if (stick.y >= 325) {
+    y += stickSpeedY;
+    if (y >= 325 && !stickPickedUp) {
       stickSpeedY =0;
-      stick.y = 325;
-    } else if (!stickPickedUp){ //item falls to the ground and doesnt fall forever
+      y = 325;
+    } else if (!stickPickedUp) { //item falls to the ground and doesnt fall forever
       stickSpeedY = +6;
       equipped = false;
     }
@@ -42,36 +32,36 @@ class Stick {
      and presses 'e', the sticks coordinates
      are set to the fit the player)
      */
-    if (!equipped && player.x > stick.x-20 && player.x < stick.x +70 && key == 'e' || key == '1' && stickPickedUp ) {
-      stick.x = player.x + 30;
-      stick.y = player.y +30;
+    if (!equipped && player.x > x-20 && player.x < x +70 && key == 'e' || key == '1' && stickPickedUp ) {
+      x = player.x + 30;
+      y = player.y +30;
       equipped = true;
       stickPickedUp = true;
     }
     //Item stays connected to player
     if (equipped && stickPickedUp) {
-      stick.x = player.x;
-      stick.y = player.y+30;
+      x = player.x;
+      y = player.y+30;
     }
     //Unequip
-    if (equipped && stickPickedUp && key =='2') {
+    if (equipped && stickPickedUp && key =='2' || rock.rockEquipped && equipped == true) {
       equipped = false;
       stickPickedUp = true;
-      x = 70;
-      y = 50;
+      x = 80;
+      y = 400;
     }
 
     //Attacking (If the stick is equipped, and ' ' is pressed, then stick.x +30)
-    stick.x += stickSpeedX;
+    x += stickSpeedX;
     if (equipped && key == ' ' && atkPressed == true) {
       stickSpeedX = +30;
     } else {
       stickSpeedX =0;
       atkPressed= false;
     }
-    if (stick.x > player.x+60 && equipped==true) {
+    if (x > player.x+60 && equipped==true) {
       stickSpeedX = 0;
-      stick.x --;
+      x --;
       atkPressed = false;
     }
   }

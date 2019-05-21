@@ -1,6 +1,9 @@
 class Player {
- 
-  int x, y, w, h;
+
+  boolean h0Display = true;
+  boolean h1Display = true;
+  boolean h2Display = true;
+  int x, y, w, h, hp;
 
 
   Player() {
@@ -8,6 +11,7 @@ class Player {
     y=250;
     w=30;
     h=70;
+    hp=30;
   }
   void display() {
     fill(255);
@@ -47,4 +51,35 @@ class Player {
       println("dope");
     }
   }
+    void heart() {
+    
+   
+
+    Heart[0].resize(40, 30);
+    Heart[1].resize(40, 30);
+    Heart[2].resize(40, 30);
+    
+    if(h0Display ==true){
+    image(Heart[0], player.x, 10);
+    }
+    if(h1Display ==true){
+    image(Heart[1], player.x+40, 10);
+    }
+    if(h2Display ==true){
+    image(Heart[2], player.x +80, 10); 
+    }
+    
+    if(player.hp < 21){
+    h2Display = false;
+    }
+    if(player.hp < 11){
+    h1Display = false;
+    }
+    if(player.hp <= 0){
+    h0Display = false;
+    println("DEATH");
+    }
+
+    
+      }
 }

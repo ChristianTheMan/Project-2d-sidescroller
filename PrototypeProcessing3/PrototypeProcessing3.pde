@@ -1,9 +1,13 @@
 //This is a comment
 PImage Crab;
 PImage Sand;
-PImage beach;
+//PImage beach;
 PImage Bar;
+ PImage PantherL;
+  PImage PantherR;
+  PImage Heart [] = new PImage [3];
 
+PImage gameBackground;
 int x1, y1, w1, h1;
 int x2, y2, w2, h2;
 float playerSpeedY = 0;
@@ -19,7 +23,7 @@ boolean moveRight = true;
 boolean press1 = false;
 boolean press2 = false;  
 boolean equipped = false;
- boolean jumping = false;
+boolean jumping = false;
 
 
 Player player = new Player();
@@ -27,62 +31,78 @@ Stick stick= new Stick();
 Monster [] monsters = new Monster[5];
 //Crab crab = new Crab();
 Crab crab1 = new Crab();
+Monkey monkey = new Monkey();
 Items item = new Items();
 Rock rock = new Rock();
+Stone stone = new Stone();
+Panther panther = new Panther();
 
 void setup () {
   size(800, 450);
-  beach = loadImage("darkbeach.png");
+ //beach = loadImage("darkbeach.png");
   Sand =loadImage("Sand_Dune.png");
-  Crab =loadImage("OCRAB.png");
+ gameBackground = loadImage ("gameBackgroundFinish.png");
   Bar = loadImage("bar.png");
+  PantherL =loadImage("PantherL.png");
+  PantherR =loadImage("PantherR.png");
+  Heart[0] = loadImage("Heart.png");
+  Heart[1] = loadImage("Heart.png");
+  Heart[2] = loadImage("Heart.png");
 
 
   //load monster
-   monsters[0]= new Monster("pixelMonsterB.png");
+  monsters[0]= new Monster("pixelMonsterB.png");
   monsters[0].setXY(450, 240);
 }
 
 void draw () {
   player.movement();
-  player.draw();
-  image(beach, 0, 0);
-  beach.resize(800, 450);
+  translate(player.x*-1+100, 0);
+
+  //image(beach, 0, 0);
+  //beach.resize(800, 450);
+   image(gameBackground, 0, 0);
+  gameBackground.resize(6000, 450);
   fill(255);
   fill(0, 0, 250);
   rect(x2, y2, w2, h2);
+    player.draw();
   player.display();
+   player.heart();
+   player.checkDeath();
   rock.display();
+  rock.draw();
   stick.display();
-  Sand.resize(60, 30);
-  player.checkDeath();
+  stick.draw();
+  monkey.display();
+  monkey.draw();
   crab1.damage();
   crab1.draw();
-  rock.draw();
-  stick.draw();
   item.inventory();
-  
-   if (death == false) monsters[0].display();
+  panther.draw();
+  panther.damage();
+  Sand.resize(60, 30);
+  if (death == false) monsters[0].display();
   //Monster movement
-   monsters[0].x += monsterSpeedX;
-   monsterSpeedX = +1;
-   if (monsters[0].x >= 700){
-   monsterSpeedX = 0;
-   }
-   
+  monsters[0].x += monsterSpeedX;
+  monsterSpeedX = +1;
+  if (monsters[0].x >= 700) {
+    monsterSpeedX = 0;
+  }
+
 
   //Item
 }
-boolean collision( Monster inputMonster, Stick stick){
-  float stickDistance = dist(inputMonster.x+inputMonster.width/2, inputMonster.y+inputMonster.height/2 ,stick.x+60,stick.y+6);
-  if (stickDistance <inputMonster.width/2){
+boolean collision( Monster inputMonster, Stick stick) {
+  float stickDistance = dist(inputMonster.x+inputMonster.width/2, inputMonster.y+inputMonster.height/2, stick.x+60, stick.y+6);
+  if (stickDistance <inputMonster.width/2) {
     return true;
-    }else{
+  } else {
     return false;
   }
 }
-void checkDeath2(){
-  if (collision(monsters[0], stick) && atkPressed == true){
+void checkDeath2() {
+  if (collision(monsters[0], stick) && atkPressed == true) {
     monsters[0].hp = monsters[0].hp+stick.dmg;
     println("dmg" + stick.dmg);
   }
