@@ -1,16 +1,14 @@
 class Rock {
-  int x;
-  int y;
+  float x;
+  float y;
   int w;
-  int speedX;
-  int speedY;
+  float speedX;
+  float speedY;
   int life = 255;
   boolean rocksVisible = false;
   boolean rockPickedUp = false;
   boolean rockEquipped = false;
-  boolean thrown = false; 
-
-
+  boolean thrown = false;
   Rock() {
     x=200;
     y=320;
@@ -22,7 +20,8 @@ class Rock {
     ellipse(x, y, w, w);
   }
   void draw() {
-
+    collision();
+    display();
     // rocK
     y += speedY;
     if (y >= 325 && !rockPickedUp) {
@@ -33,53 +32,50 @@ class Rock {
       rockEquipped =false;
     }
     /* Equips item ( If the player is close to the stick,
-     and presses 'e', the sticks coordinates
+     and presses &apos;e&apos;, the sticks coordinates
      are set to the fit the player)
      */
-    if (!rockEquipped && player.x > x-20 && player.x < x +20 && key == 'e' || key == '2' && rockPickedUp == true  ) {
+    if (!rockEquipped && player.x > x-20 && player.x < x +20 && key ==
+      'e' || key == '2' && rockPickedUp == true ) {
       rockEquipped = true;
       rockPickedUp = true;
-      x = player.x + 30;
-      y = player.y +30;
+      x = player.x + 70;
+      y = player.y +70;
     }
     //Item stays connected to player
     if (rockEquipped && rockPickedUp ) {
-      x = player.x;
-      y = player.y+30;
+      x = player.x + 75;
+      y = player.y+ 70;
     }
     //Unequip
-    if (rockEquipped && rockPickedUp && key =='1') {
+    if (rockEquipped && rockPickedUp && key == '1') {
       rockPickedUp = true;
       rockEquipped = false;
-      x = 50 ;
+    }
+    if (rockPickedUp == true && rockEquipped == false) {
+      x = player.x + 50;
       y = 400;
     }
-
-    //Attacking (If the stick is equipped, and ' ' is pressed, then stick.x +30)
-    x += speedX;
-    if (rockEquipped && key == ' ' && atkPressed == true) {
-      speedX = +30;
-    } else {
-      speedX =0;
-      atkPressed= false;
-    }
-    if (x > player.x+60 && rockEquipped==true || equipped && rockEquipped) {
-      speedX = 0;
-      x --;
-      atkPressed = false;
-    }
     if ( rockEquipped == true ) {
-      for (int i = 0; i < 15; i++) { // Denne funktion er hvad der får stenene til at rykke sig fremad
-        speedX = 0 + i;              // samt at indskrænke hvor langt stenen må flyve. plus at unequipped
-        if (key == ' ') {            // stenen så den ikke bare teleporter tilbage til playeren
-          rockEquipped = false; 
+      for (int i = 0; i < 15; i++) {                                                              // Denne funktion er hvad der får stenene til at rykke sig fremad
+        speedX = 0.1 + i ;                                                                       // samt at indskrænke hvor langt stenen må flyve. plus at unequipped
+        if (key == ' ' ) {                                                                      // stenen så den ikke bare teleporter tilbage til playeren
+          rockEquipped = false;
           rockPickedUp = false;
           x = x + speedX;
-          if (i == 12 ) {
-            speedY = 0 ;
-          }
         }
       }
+    }
+  }
+  boolean collision() {
+    float distance = dist(monkey.x + 30, monkey.y + 30, rock.x+10, 
+      rock.y+10);
+    if (distance < 35) {
+
+      monkey.dead = true;
+      return true;
+    } else {
+      return false;
     }
   }
 }

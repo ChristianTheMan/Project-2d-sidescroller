@@ -1,10 +1,8 @@
 class Monkey extends Monster {
-  PImage Monkey;
-  boolean moveUp = true; 
-  
-
+  boolean dead = false; 
+  boolean moveUp = true;
   Monkey () {
-    x=375;
+    x=1995;
     y=275;
     width=70;
     height=50;
@@ -12,27 +10,30 @@ class Monkey extends Monster {
     speedY=0;
   }
   void display() {
-    Monkey = loadImage("monkey.png");
     Monkey.resize(width, height);
     image(Monkey, x, y);
   }
   void draw() {
-    stone.draw();
-     speedY = 1;
-     if(y > 100 && moveUp == true){
-      y = y - speedY;
-      if(y == 100){
-      moveUp = false;
+    monkey.display();
+    if (dead == false) {
+      stone.draw();
+      speedY = 1;
+      if (y > 100 && moveUp == true) {
+        y = y - speedY;
+        if (y == 100) {
+          moveUp = false;
+        }
       }
-     }
-     if (y < 275 && moveUp == false){
-         y = y + speedY;
-         if (y == 275){
-         moveUp = true;
-         }
-     }
-        
-         
+      if (y < 275 && moveUp == false) {
+        y = y + speedY;
+        if (y == 275) {
+          moveUp = true;
+        }
+      }
+    }
+    if (dead == true) {
+      x = -100;
+      y = -100;
+    }
   }
-  
 }
